@@ -3,7 +3,7 @@
 // import storage from 'redux-persist/lib/storage';
 import logger from "redux-logger";
 
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import { rootReducer } from "./root-reducer";
 
 const middleWares = [process.env.NODE_ENV === "development" && logger].filter(
@@ -37,5 +37,10 @@ const middleWares = [process.env.NODE_ENV === "development" && logger].filter(
 //createStore changed to configureStore
 export const store = configureStore({
   reducer: rootReducer,
-  middleware: middleWares,
+  //middleware: middleWares,  //if array - Redux Toolkit assumes you are passing fully custom middleware
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      //what is returned is used as middleware
+      serializableCheck: false, //turn off check for Serializable Error value passed into store
+    }).concat(middleWares), //take any middleware we get back from default - add our middlewares array
 });

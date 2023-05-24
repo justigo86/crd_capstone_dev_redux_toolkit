@@ -17,6 +17,7 @@ const INITIAL_STATE = {
 //   }
 // };
 
+//using Toolkit allows us to condense .action.js, .reducer.js, and .types.js files into one reducer:
 export const userReducerSlice = createSlice({
   //generates slice (as an object) to replace reducer and types
   name: "users",
